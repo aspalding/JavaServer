@@ -1,0 +1,11 @@
+##Directories
+out/*
+.idea/*
+
+##Files
+*.txt
+*.iml
+*.class
+index.html
+*.html
+.DS_Store

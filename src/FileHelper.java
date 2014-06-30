@@ -1,4 +1,4 @@
 public interface FileHelper{
     public boolean exists();
-    //public String fileToString();
+    public String fileToString() throws Exception;
 }

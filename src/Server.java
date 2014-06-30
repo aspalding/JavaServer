@@ -15,9 +15,7 @@ public class Server{
     public String process(Socket socket) throws Exception{
         BufferedReader requestReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        String request = requestReader.readLine();
-
-        return request;
+        return requestReader.readLine();
     }
 
     public void run() throws Exception{
@@ -28,7 +26,7 @@ public class Server{
             Request clientReq = new Request(request);
             Response clientResp = new Response(new FileProd(clientReq.getPath()));
             clientResp.write(clientResp.responseBody(clientReq.getPath()),
-                    clientResp.responseString(clientReq.getCommand()), s);
+                    clientResp.responseString(clientReq.getStatus()), s);
             s.close();
         }
     }
@@ -38,7 +36,4 @@ public class Server{
         System.out.println("Server started at localhost:4000");
         simpleServer.run();
     }
-
-
-
 }

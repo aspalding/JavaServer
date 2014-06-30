@@ -1,8 +1,5 @@
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class Response{
@@ -19,18 +16,19 @@ public class Response{
         file = fh;
     }
 
-    public String responseString(String command){
+    public String responseString(int status){
+        String response = "HTTP/1.1 ";
+
         if(file.exists())
-            return "HTTP/1.1 200 OK\n\n";
+            return response + status + " " + statusReason.get(status) + "\n\n";
         else
-            return "HTTP/1.1 404 Not Found\n\n";
+            return response + 404 + " " + statusReason.get(404) + "\n\n";
     }
 
     public String responseBody(String path) throws Exception{
-        if(file.exists()) {
-            byte[] encoded = Files.readAllBytes(Paths.get(path));
-            return new String(encoded, StandardCharsets.UTF_8);
-        } else
+        if(file.exists())
+            return file.fileToString();
+        else
             return "<h1>Page Not Found</h1>";
     }
 

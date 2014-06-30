@@ -4,10 +4,11 @@ import java.util.List;
 public class Request{
     static final List<String> methods = Arrays.asList("GET");
     private String command, path, request;
+    private int status;
 
     public Request(String request){
         this.request = request;
-        this.classifyRequest();
+        this.status = classifyRequest();
     }
 
     public String getCommand(){
@@ -17,6 +18,8 @@ public class Request{
     public String getPath(){
         return path;
     }
+
+    public int getStatus() { return status; }
 
     public int classifyRequest(){
         String[] splitReq = request.split("\\s");

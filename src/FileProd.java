@@ -1,4 +1,7 @@
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FileProd implements FileHelper{
     File file;
@@ -11,6 +14,11 @@ public class FileProd implements FileHelper{
 
     public boolean exists(){
         return file.exists();
+    }
+
+    public String fileToString() throws Exception {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, StandardCharsets.UTF_8);
     }
 
 }

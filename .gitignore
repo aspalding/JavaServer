@@ -8,4 +8,8 @@ out/*
 *.class
 index.html
 *.html
+*.png
+*.jpg
+*.pdf
+*.mp3
 .DS_Store

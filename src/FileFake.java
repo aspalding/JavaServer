@@ -17,8 +17,8 @@ public class FileFake implements FileHelper{
         return exists;
     }
 
-    public String fileToString() throws Exception{
-        return content;
+    public byte[] fileToBytes() throws Exception{
+        return content.getBytes();
     }
 
 

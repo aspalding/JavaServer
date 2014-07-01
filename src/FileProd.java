@@ -16,9 +16,8 @@ public class FileProd implements FileHelper{
         return file.exists();
     }
 
-    public String fileToString() throws Exception {
+    public byte[] fileToBytes() throws Exception {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded, StandardCharsets.UTF_8);
+        return encoded;
     }
-
 }

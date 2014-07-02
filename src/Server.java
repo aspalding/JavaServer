@@ -26,11 +26,18 @@ public class Server{
 
             System.out.println(request);
 
+            if(request == null)
+                s.close();
+            else{
             Request clientReq = new Request(request);
             Response clientResp = new Response(new FileProd(clientReq.getPath()));
-            clientResp.write(clientResp.responseHeader(clientReq.getStatus(), clientReq.getPath()),
-                    clientResp.responseBody(), s);
+            clientResp.write(
+                    clientResp.responseHeader(clientReq.getStatus(), clientReq.getPath()),
+                    clientResp.responseBody(),
+                    s
+            );
             s.close();
+            }
         }
     }
 

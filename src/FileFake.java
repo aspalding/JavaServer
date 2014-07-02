@@ -1,4 +1,4 @@
-
+import java.io.File;
 
 public class FileFake implements FileHelper{
     boolean exists;
@@ -17,8 +17,16 @@ public class FileFake implements FileHelper{
         return exists;
     }
 
+    public boolean isFile(){
+        return exists;
+    }
+
     public byte[] fileToBytes() throws Exception{
         return content.getBytes();
+    }
+
+    public File getFileObject(){
+        return null;
     }
 
 

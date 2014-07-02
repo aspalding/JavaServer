@@ -1,6 +1,7 @@
 ##Directories
 out/*
 .idea/*
+src/TestMedia/*
 
 ##Files
 *.txt

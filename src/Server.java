@@ -23,6 +23,9 @@ public class Server{
             Socket s;
             s = server.accept();
             String request = process(s);
+
+            System.out.println(request);
+
             Request clientReq = new Request(request);
             Response clientResp = new Response(new FileProd(clientReq.getPath()));
             clientResp.write(clientResp.responseHeader(clientReq.getStatus(), clientReq.getPath()),
@@ -36,19 +39,4 @@ public class Server{
         System.out.println("Server started at localhost:4000");
         simpleServer.run();
     }
-
-    /*
-    public void run() throws Exception{
-        while(true){
-            Socket s;
-            s = server.accept();
-            String request = process(s);
-            Request clientReq = new Request(request);
-            Response clientResp = new Response(new FileProd(clientReq.getPath()));
-            clientResp.write(clientResp.responseString(clientReq.getStatus(), clientReq.getPath()),
-                    clientResp.responseBody(), s);
-            s.close();
-        }
-    }
-     */
 }

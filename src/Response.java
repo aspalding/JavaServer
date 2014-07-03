@@ -47,7 +47,6 @@ public class Response{
         out.write(responseHeader.getBytes());
         out.write(responseBody, 0, responseBody.length);
         out.close();
-
     }
 
 }

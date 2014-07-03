@@ -1,5 +1,10 @@
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import static org.junit.Assert.*;
 
 public class ResponseTest {
@@ -25,6 +30,11 @@ public class ResponseTest {
         FileFake fk = new FileFake(true, "hello world");
         Response resp = new Response(fk);
         assert new String(resp.responseBody()).equals("hello world");
+    }
+
+    @Test
+    public void testWrite() throws Exception {
+
     }
 
 

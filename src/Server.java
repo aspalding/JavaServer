@@ -1,15 +1,8 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class Server{
+public class Server implements Runnable {
     private static String DEFAULT_ROOT = System.getProperty("user.dir");
     private static int DEFAULT_PORT = 4000;
 
@@ -22,88 +15,67 @@ public class Server{
         server = new ServerSocket(DEFAULT_PORT);
     }
 
-    public Server(List<String> args) throws Exception {
-        parseArguments(args);
+    public Server(int port, String root) throws Exception {
+        this.port = port;
+        this.root = root;
 
         if(port == 0)
-            port = DEFAULT_PORT;
+            this.port = DEFAULT_PORT;
 
-        server = new ServerSocket(port);
+        if(root == null)
+            this.root = DEFAULT_ROOT;
+
+        server = new ServerSocket(this.port);
     }
 
-    public void parseArguments(List<String> args){
-        int index, indexOfArgument;
-        for(String arg : args){
-            index = args.indexOf(arg);
-            indexOfArgument = index + 1;
-
-            if(arg.equals("-p") && indexOfArgument < args.size())
-                port = parsePort(args.get(indexOfArgument));
-            else if(arg.equals("-d") && indexOfArgument < args.size())
-                root = parseRoot(args.get(indexOfArgument));
-        }
-    }
-
-    public String parseRoot(String input){
-        if(Files.isDirectory(Paths.get(input)))
-            return input;
-        else {
-            System.out.println("Not valid, using default");
-            return DEFAULT_ROOT;
-        }
-    }
-
-    public int parsePort(String input){
-        int result = 0;
+    public String readRequest(InputStream input){
         try {
-            result = Integer.parseInt(input);
-        } catch (NumberFormatException e){
-            System.out.println("Not valid, using default");
+            BufferedReader requestReader = new BufferedReader(new InputStreamReader(input));
+            String request = requestReader.readLine();
+            return request;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
         }
-
-        if(isValidPort(result))
-            return result;
-        else
-            return DEFAULT_PORT;
     }
 
-    public boolean isValidPort(int input){
-        return input > 0 && input < 65535;
+    public void writeResponse(String responseHeader, byte[] responseBody, OutputStream output) throws Exception{
+        try {
+            BufferedOutputStream out = new BufferedOutputStream(output);
+            out.write(responseHeader.getBytes());
+            out.write(responseBody);
+            out.close();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
-    
-    public String process(Socket socket) throws Exception{
-        BufferedReader requestReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        return requestReader.readLine();
-    }
 
-    public void run() throws Exception{
-        while(true){
-            Socket s;
-            s = server.accept();
-            String request = process(s);
+    public void run() {
+        try {
+            while (true) {
+                Socket s;
+                s = server.accept();
+                String request = readRequest(s.getInputStream());
 
-            System.out.println(request);
+                System.out.println(request);
 
-            if(request == null)
-                s.close();
-            else{
-                Request clientReq = new Request(request);
-                Response clientResp = new Response(new FileProd(clientReq.getPath()));
-                clientResp.write(
-                    clientResp.responseHeader(clientReq.getStatus(), clientReq.getPath()),
-                    clientResp.responseBody(),
-                    s
-                );
-                s.close();
+                if (request == null)
+                    s.close();
+                else {
+                    Request clientReq = new Request(request);
+                    Response clientResp = new Response(new File(clientReq.getPath()));
+
+                    writeResponse(
+                            clientResp.responseHeader(clientReq.getStatus(), clientReq.getPath()),
+                            clientResp.responseBody(),
+                            s.getOutputStream()
+                    );
+
+                    s.close();
+                }
             }
+        } catch(Exception e){
+            e.printStackTrace();
         }
-    }
-
-    public static void main (String cat[]) throws Exception{
-        //List<String> args = Arrays.asList(cat);
-        //Server simpleServer = new Server();
-        Server simpleServer = new Server(Arrays.asList(cat));
-        System.out.println("Server started at localhost:" + simpleServer.port);
-        simpleServer.run();
     }
 }

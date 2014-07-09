@@ -1,3 +1,5 @@
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class Request{
             String strippedString = splitReq[1].substring(1);
             if(!strippedString.isEmpty())
                 path = strippedString;
-            else
+            else if(Files.exists(Paths.get("index.html")))
                 path = "index.html";
 
             return 200;

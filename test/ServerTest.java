@@ -2,6 +2,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.*;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,51 +24,21 @@ public class ServerTest {
     }
 
     @Test
-    public void testParseArgumentsPort() throws Exception {
-        String[] cat = {"-p", "8080"};
-        List<String> args = Arrays.asList(cat);
+    public void testReadRequest() throws Exception {
+        InputStream input = new ByteArrayInputStream("hello world".getBytes());
 
-        server.parseArguments(args);
-
-        assertEquals(server.port, 8080);
+        assertEquals("hello world", server.readRequest(input));
     }
 
     @Test
-    public void testParseArgumentsRoot() throws Exception {
-        String[] cat = {"-d", "/Users/andrew"};
-        List<String> args = Arrays.asList(cat);
+    public void testWriteResponse() throws Exception {
+        OutputStream output = new ByteArrayOutputStream();
+        output.write("hello".getBytes());
+        output.write("world".getBytes());
 
-        server.parseArguments(args);
+        OutputStream written = new ByteArrayOutputStream();
+        server.writeResponse("hello", "world".getBytes(), written);
 
-        assertEquals(server.root, "/Users/andrew");
-    }
-
-    @Test
-    public void testParseArgumentsBoth() throws Exception {
-        String[] cat = {"-p", "8080", "-d", "/Users/andrew"};
-        List<String> args = Arrays.asList(cat);
-
-        server.parseArguments(args);
-
-        assertEquals(server.port, 8080);
-        assertEquals(server.root, "/Users/andrew");
-    }
-
-    @Test
-    public void testParseArgumentsInvalid() throws Exception {
-        String[] cat = {"-p", "-d"};
-        List<String> args = Arrays.asList(cat);
-
-        server.parseArguments(args);
-
-        assertEquals(server.port, 4000);
-    }
-
-    @Test
-    public void testPortsValidity() throws Exception {
-        assertEquals(false, server.isValidPort(-100));
-        assertEquals(false, server.isValidPort(100000));
-        assertEquals(false, server.isValidPort(0));
-        assertEquals(true, server.isValidPort(4000));
+        assertEquals(output.toString(), written.toString());
     }
 }

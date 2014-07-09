@@ -2,10 +2,14 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.net.Socket;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Properties;
 
 public class Response{
-    FileHelper file;
+    File file;
 
     private static final HashMap<Integer, String> statusReason = new HashMap<Integer, String>(){{
         put(200, "OK");
@@ -14,39 +18,44 @@ public class Response{
         put(501, "Not Implemented");
     }};
 
-    public Response(FileHelper fh){
-        file = fh;
+    public Response(File file){
+        this.file = file;
     }
 
     public String responseHeader(int status, String path){
         String response = "HTTP/1.1 ";
         String contentType = "Content-Type: " + URLConnection.getFileNameMap().getContentTypeFor(path);
-        File fileObject = file.getFileObject();
 
-        if(file.exists() && file.isFile())
-            return response + status + " " + statusReason.get(status) + "\n" + contentType + "\n\n";
-        else if(file.exists() && fileObject != null && fileObject.isDirectory())
-            return response + status + " " + statusReason.get(status) + "\n" + "Content-Type: text/html" + "\n\n";
+        if(file.isFile())
+            response += status + " " + statusReason.get(status) + "\n" + contentType + "\n\n";
+        else if(file.isDirectory())
+            response += status + " " + statusReason.get(status) + "\n" + "Content-Type: text/html" + "\n\n";
         else
-            return response + 404 + " " + statusReason.get(404) + "\n\n";
+            response += 404 + " " + statusReason.get(404) + "\n\n";
+
+        return response;
     }
 
-    public byte[] responseBody() throws Exception{
-        File fileObject = file.getFileObject();
+    public byte[] responseBody() {
+        byte[] response;
 
-        if(file.exists() && file.isFile())
-            return file.fileToBytes();
-        else if(file.exists() && fileObject.isDirectory())
-            return new FolderView(fileObject.getAbsolutePath()).buildView();
+        if(file.isFile())
+            response = fileToBytes(file.getAbsolutePath());
+        else if(file.isDirectory())
+            response = new FolderView(file.getAbsolutePath()).buildView();
         else
-            return "<h1>Page Not Found</h1>".getBytes();
+            response = "<h1>Page Not Found</h1>".getBytes();
+
+        return response;
     }
 
-    public void write(String responseHeader, byte[] responseBody, Socket s) throws Exception{
-        BufferedOutputStream out = new BufferedOutputStream(s.getOutputStream());
-        out.write(responseHeader.getBytes());
-        out.write(responseBody, 0, responseBody.length);
-        out.close();
+    public byte[] fileToBytes(String path) {
+        try{
+            return Files.readAllBytes(Paths.get(path));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

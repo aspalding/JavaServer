@@ -6,21 +6,21 @@ import static org.junit.Assert.*;
 
 public class RequestTest {
     @Test
-    public void testIsBadRequest() throws Exception {
+    public void testClassifyRequest() throws Exception {
         String[] badRequests = {""," GET ./ HTTP/1.1", "GET ./", "get ./ HTTP/1.1"};
         String notImplemented = "LET ./ HTTP/1.1";
         String goodRequest = "GET ./ HTTP/1.1";
 
         for(String request : badRequests){
             Request req = new Request(request);
-            assert req.classifyRequest() == 400;
+            assertEquals(400, req.classifyRequest());
         }
 
         Request notImplReq = new Request(notImplemented);
-        assert notImplReq.classifyRequest() == 501;
+        assertEquals(501, notImplReq.classifyRequest());
 
         Request goodReq = new Request(goodRequest);
-        assert goodReq.classifyRequest() == 200;
+        assertEquals(200, goodReq.classifyRequest());
     }
 
     @Test
@@ -29,12 +29,13 @@ public class RequestTest {
         Request req = new Request(goodRequest);
 
         if(req.classifyRequest() == 200) {
-            assert req.getCommand().equals("GET");
-            assert req.getPath().equals("index.html");
+            assertEquals("GET", req.getCommand());
+            assertEquals("index.html", req.getPath());
+            assertEquals(200, req.getStatus());
         }
 
         String requestWithPath = "GET /Request.java HTTP/1.1";
         Request pathReq = new Request(requestWithPath);
-        assert pathReq.getPath().equals("Request.java");
+        assertEquals("Request.java", pathReq.getPath());
     }
 }

@@ -4,28 +4,25 @@ import java.net.Socket;
 
 public class Server implements Runnable {
     private static String DEFAULT_ROOT = System.getProperty("user.dir");
-    private static int DEFAULT_PORT = 4000;
 
     public int port;
     public String root;
 
     public ServerSocket server;
 
-    public Server() throws Exception{
-        server = new ServerSocket(DEFAULT_PORT);
+    public Server(ServerSocket server) throws Exception{
+        this.server = server;
     }
 
-    public Server(int port, String root) throws Exception {
+    public Server(int port, String root, ServerSocket server) throws Exception {
         this.port = port;
         this.root = root;
-
-        if(port == 0)
-            this.port = DEFAULT_PORT;
+        this.server = server;
 
         if(root == null)
             this.root = DEFAULT_ROOT;
-
-        server = new ServerSocket(this.port);
+        
+        System.setProperty("user.dir", this.root);
     }
 
     public String readRequest(InputStream input){

@@ -58,5 +58,16 @@ public class ArgsParserTest {
         assertEquals(ArgsParser.port, 4000);
     }
 
+    @Test
+    public void testParseArgumentsInvalidDirectory() throws Exception {
+        String[] cat = {"-d", "C:"};
+        List<String> args = Arrays.asList(cat);
+
+        ArgsParser.parseArguments(args);
+
+        assertEquals(ArgsParser.root, System.getProperty("user.dir"));
+    }
+
+
 
 }

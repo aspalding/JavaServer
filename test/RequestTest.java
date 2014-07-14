@@ -25,17 +25,17 @@ public class RequestTest {
 
     @Test
     public void testGetters() throws Exception{
-        String goodRequest = "GET HTTP/1.1";
+        String goodRequest = "GET / HTTP/1.1";
         Request req = new Request(goodRequest);
 
         if(req.classifyRequest() == 200) {
             assertEquals("GET", req.getCommand());
-            assertEquals("index.html", req.getPath());
+            assertEquals("/Users/andrew/Documents/JavaServer/", req.getPath());
             assertEquals(200, req.getStatus());
         }
 
         String requestWithPath = "GET /Request.java HTTP/1.1";
         Request pathReq = new Request(requestWithPath);
-        assertEquals("Request.java", pathReq.getPath());
+        assertEquals("/Users/andrew/Documents/JavaServer/Request.java", pathReq.getPath());
     }
 }

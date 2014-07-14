@@ -1,12 +1,8 @@
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.net.Socket;
 import java.net.URLConnection;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Properties;
 
 public class Response{
     File file;
@@ -36,10 +32,12 @@ public class Response{
         return response;
     }
 
-    public byte[] responseBody() {
+    public byte[] responseBody() throws Exception {
         byte[] response;
 
-        if(file.isFile())
+        if(file.isDirectory() && new File(file, "index.html").exists())
+            response = fileToBytes(file.getAbsolutePath() + "/index.html");
+        else if(file.isFile())
             response = fileToBytes(file.getAbsolutePath());
         else if(file.isDirectory())
             response = new FolderView(file.getAbsolutePath()).buildView();
@@ -53,7 +51,7 @@ public class Response{
         try{
             return Files.readAllBytes(Paths.get(path));
         } catch(Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }

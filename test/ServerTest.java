@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,7 @@ public class ServerTest {
 
     @Before
     public void setUp() throws Exception{
-        server = new Server();
+        server = new Server(new ServerSocket(4000));
     }
 
     @After

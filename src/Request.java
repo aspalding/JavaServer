@@ -1,5 +1,4 @@
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,11 +35,9 @@ public class Request{
         else {
             command = splitReq[0];
 
-            String strippedString = splitReq[1].substring(1);
-            if(!strippedString.isEmpty())
-                path = strippedString;
-            else if(Files.exists(Paths.get("index.html")))
-                path = "index.html";
+            String fileString = splitReq[1];
+
+            path = System.getProperty("user.dir") + fileString;
 
             return 200;
         }

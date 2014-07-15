@@ -1,4 +1,3 @@
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,11 +33,8 @@ public class Request{
             return 501;
         else {
             command = splitReq[0];
-
             String fileString = splitReq[1];
-
             path = System.getProperty("user.dir") + fileString;
-
             return 200;
         }
     }

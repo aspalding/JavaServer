@@ -9,8 +9,6 @@ public class Application{
 
         ArgsParser.parseArguments(Arrays.asList(cat));
 
-        ExecutorService exe = Executors.newFixedThreadPool(4);
-
         if(ArgsParser.port == 0)
             port = 4000;
         else
@@ -18,10 +16,13 @@ public class Application{
 
         ServerSocket s = new ServerSocket(port);
 
-        exe.submit(new Server(ArgsParser.port, ArgsParser.root, s));
-        exe.submit(new Server(ArgsParser.port, ArgsParser.root, s));
-        exe.submit(new Server(ArgsParser.port, ArgsParser.root, s));
-        exe.submit(new Server(ArgsParser.port, ArgsParser.root, s));
-    }
+        if(ArgsParser.root != null)
+            System.setProperty("user.dir", ArgsParser.root);
 
+
+        ExecutorService exe = Executors.newFixedThreadPool(8);
+
+        while(true)
+            exe.submit(new ServerWorker(s.accept()));
+    }
 }

@@ -71,4 +71,20 @@ public class ResponseTest {
         assertEquals(new String("".getBytes()), new String(resp.responseBody()));
     }
 
+    /*
+    @Test
+    public void testResponseBodyDirIndex() throws Exception {
+        File fake = new File(""){
+            @Override
+            public boolean isFile(){
+                return true;
+            }
+            @Override
+            public boolean isDirectory(){
+                return true;
+            }
+        };
+        Response resp = new Response(fake);
+    }*/
+
 }

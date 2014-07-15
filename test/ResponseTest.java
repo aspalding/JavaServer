@@ -63,6 +63,18 @@ public class ResponseTest {
     }
 
     @Test
+    public void testFileToBytesNull() throws Exception {
+        File fake = File.createTempFile("fake", "file");
+
+        Response resp = new Response(fake);
+
+        String path = "C:\\";
+
+        assertEquals(null, resp.fileToBytes(path));
+    }
+
+
+    @Test
     public void testResponseBody() throws Exception {
         File fake = File.createTempFile("fake", "file");
 
@@ -71,20 +83,44 @@ public class ResponseTest {
         assertEquals(new String("".getBytes()), new String(resp.responseBody()));
     }
 
-    /*
+
     @Test
     public void testResponseBodyDirIndex() throws Exception {
         File fake = new File(""){
-            @Override
-            public boolean isFile(){
-                return true;
-            }
             @Override
             public boolean isDirectory(){
                 return true;
             }
         };
         Response resp = new Response(fake);
-    }*/
+        assertEquals("<ul>", new String(resp.responseBody()).substring(0, 4));
+    }
 
+    @Test
+    public void testResponseBodyPageNotFound() throws Exception {
+        File fake = new File(""){
+            @Override
+            public boolean isDirectory(){
+                return false;
+            }
+            @Override
+            public boolean isFile(){
+                return false;
+            }
+        };
+        Response resp = new Response(fake);
+        assertEquals("<h1>Page Not Found</h1>", new String(resp.responseBody()));
+    }
+
+    @Test
+    public void testResponseBodyIndex() throws Exception {
+        File fake = new File(System.getProperty("user.dir")){
+            @Override
+            public boolean isDirectory(){
+                return true;
+            }
+        };
+        Response resp = new Response(fake);
+        assertEquals("hello world", new String(resp.responseBody()));
+    }
 }

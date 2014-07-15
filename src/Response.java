@@ -35,8 +35,8 @@ public class Response{
     public byte[] responseBody() throws Exception {
         byte[] response;
 
-        if(file.isDirectory() && new File(file, "TestMedia/apples/index.html").exists())
-            response = fileToBytes(file.getAbsolutePath() + "/TestMedia/apples/index.html");
+        if(file.isDirectory() && new File(file, "/index.html").exists())
+            response = fileToBytes(file.getAbsolutePath() + "/index.html");
         else if(file.isFile())
             response = fileToBytes(file.getAbsolutePath());
         else if(file.isDirectory())

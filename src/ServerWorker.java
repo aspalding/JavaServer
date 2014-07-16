@@ -3,15 +3,17 @@ import java.net.Socket;
 
 public class ServerWorker implements Runnable {
     public Socket connection;
+    public String request;
 
     public ServerWorker(Socket connection) throws Exception{
         this.connection = connection;
+        this.request = SocketIO.readRequest(connection.getInputStream());
     }
 
     public void run() {
         try {
             while (!connection.isClosed()) {
-                String request = SocketIO.readRequest(connection.getInputStream());
+                //String request = SocketIO.readRequest(connection.getInputStream());
                 System.out.println(request);
                 if (request == null)
                     connection.close();

@@ -1,11 +1,10 @@
-import org.junit.Test;
+    import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class SocketIOTest {
@@ -15,6 +14,18 @@ public class SocketIOTest {
 
         assertEquals("hello world", SocketIO.readRequest(input));
     }
+
+    /*
+    @Test
+    public void testReadRequestWithHeadersAndBody() throws Exception {
+        String text = "This is not a well formed request.\n" +
+                      "But it has multiple lines.\n\n" +
+                      "With a body like this.";
+
+        InputStream input = new ByteArrayInputStream(text.getBytes());
+        assertEquals(text, SocketIO.readRequest(input));
+    }
+    */
 
     @Test
     public void testWriteResponse() throws Exception {

@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Request{
-    static final List<String> methods = Arrays.asList("GET");
+    static final List<String> methods = Arrays.asList("GET", "POST");
     private String command, path, request;
     private int status;
 
@@ -24,19 +24,22 @@ public class Request{
     public int classifyRequest(){
         String[] splitReq = request.split("\\s");
         String com = splitReq[0];
+        int code;
 
         if(splitReq.length != 3)
-            return 400;
+            code = 400;
         else if(!com.equals(com.toUpperCase()))
-            return 400;
+            code = 400;
         else if(!methods.contains(com))
-            return 501;
+            code =  501;
         else {
             command = splitReq[0];
             String fileString = splitReq[1];
             path = System.getProperty("user.dir") + fileString;
-            return 200;
+            code =  200;
         }
+
+        return code;
     }
 
 }

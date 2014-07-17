@@ -29,7 +29,7 @@ public class ServerWorker implements Runnable {
                 }
             }
         } catch(Exception e){
-            e.printStackTrace();
+            //Intentionally empty. e.printStackTrace();
         }
     }
 }

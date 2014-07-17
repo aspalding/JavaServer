@@ -15,17 +15,18 @@ public class SocketIOTest {
         assertEquals("hello world", SocketIO.readRequest(input));
     }
 
-    /*
     @Test
     public void testReadRequestWithHeadersAndBody() throws Exception {
         String text = "This is not a well formed request.\n" +
                       "But it has multiple lines.\n\n" +
                       "With a body like this.";
+/*
 
+        System.out.println(SocketIO.readRequest(input));
+*/
         InputStream input = new ByteArrayInputStream(text.getBytes());
-        assertEquals(text, SocketIO.readRequest(input));
+        assert SocketIO.readFullRequest(input).contains(text);
     }
-    */
 
     @Test
     public void testWriteResponse() throws Exception {

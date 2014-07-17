@@ -5,20 +5,10 @@ import java.util.concurrent.Executors;
 
 public class Application{
     public static void main (String cat[]) throws Exception{
-        int port;
-
         ArgsParser.parseArguments(Arrays.asList(cat));
 
-        if(ArgsParser.port == 0)
-            port = 4000;
-        else
-            port = ArgsParser.port;
-
-        ServerSocket s = new ServerSocket(port);
-
-        if(ArgsParser.root != null)
-            System.setProperty("user.dir", ArgsParser.root);
-
+        System.setProperty("user.dir", ArgsParser.root);
+        ServerSocket s = new ServerSocket(ArgsParser.port);
 
         ExecutorService exe = Executors.newFixedThreadPool(8);
 

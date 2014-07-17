@@ -15,9 +15,6 @@ public class FolderView{
 
         String relative = currentDir.substring(workingDir.length());
 
-        System.out.println(currentDir);
-        System.out.println(relative);
-
         return "<li><a href=\"" + relative.toString() + "\">" + name + "</a></li>\n";
     }
 

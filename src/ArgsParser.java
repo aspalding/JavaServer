@@ -6,8 +6,8 @@ public class ArgsParser{
     private static final String DEFAULT_ROOT = System.getProperty("user.dir");
     private static final int DEFAULT_PORT = 4000;
 
-    public static String root;
-    public static int port;
+    public static String root = DEFAULT_ROOT;
+    public static int port = DEFAULT_PORT;
 
     public static void parseArguments(List<String> args){
         int index, indexOfArgument;

@@ -29,7 +29,7 @@ public class RequestTest {
     @Test
     public void testRequestPath() throws Exception {
         String itShould = "/src/TestMedia/";
-        assertEquals(itShould, request.path);
+        assert request.path.contains(itShould);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class RequestTest {
         assertEquals(itShould, requestNoBody.method);
 
         String itReallyShould = "/src/TestMedia/";
-        assertEquals(itReallyShould, requestNoBody.path);
+        assert requestNoBody.path.contains(itReallyShould);
 
         Hashtable<String, String> ht = new Hashtable<String, String>(){
             {

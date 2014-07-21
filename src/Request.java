@@ -25,13 +25,12 @@ public class Request {
     }
 
     public String tokenizePath(){
-        return st.nextToken();
+        return System.getProperty("user.dir") + st.nextToken();
     }
 
     public Hashtable<String, String> tokenizeRest(){
+        st.nextToken(); //Discard HTTP Version.
         Hashtable<String, String> ht = new Hashtable<String, String>();
-
-        st.nextToken();
         do {
             String key = st.nextToken();
             String value = st.nextToken();

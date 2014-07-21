@@ -66,6 +66,7 @@ public class ServerWorkerTest {
                     return true;
             }
 
+            @Override
             public InputStream getInputStream(){
                 return new ByteArrayInputStream("".getBytes());
             }

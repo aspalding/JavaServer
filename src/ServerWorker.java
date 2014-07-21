@@ -13,11 +13,11 @@ public class ServerWorker implements Runnable {
     public void run() {
         try {
             while (!connection.isClosed()) {
-                System.out.println(request);
+                //System.out.println(request);
                 if (request == null)
                     connection.close();
                 else {
-                    Request clientReq = new Request(request.split("\n")[0]);
+                    RequestHandler clientReq = new RequestHandler(request.split("\n")[0]);
                     Response clientResp = new Response(new File(clientReq.getPath()));
 
                     SocketIO.writeResponse(

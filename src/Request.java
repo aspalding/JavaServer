@@ -1,45 +1,49 @@
-import java.util.Arrays;
-import java.util.List;
+import java.util.Hashtable;
+import java.util.StringTokenizer;
 
-public class Request{
-    static final List<String> methods = Arrays.asList("GET", "POST");
-    private String command, path, request;
-    private int status;
+public class Request {
+    StringTokenizer st;
+    Hashtable<String, String> headers;
+    String request, method, path, body;
 
     public Request(String request){
         this.request = request;
-        this.status = classifyRequest();
+
+        this.headers = new Hashtable<String, String>();
+        this.st = new StringTokenizer(this.request);
+
+        this.method = tokenizeMethod();
+        this.path = tokenizePath();
+        this.headers = tokenizeRest();
+
+        if(st.hasMoreTokens())
+            this.body = tokenizeBody();
     }
 
-    public String getCommand(){
-        return command;
+    public String tokenizeMethod(){
+        return st.nextToken();
     }
 
-    public String getPath(){
-        return path;
+    public String tokenizePath(){
+        return st.nextToken();
     }
 
-    public int getStatus() { return status; }
+    public Hashtable<String, String> tokenizeRest(){
+        Hashtable<String, String> ht = new Hashtable<String, String>();
 
-    public int classifyRequest(){
-        String[] splitReq = request.split("\\s");
-        String com = splitReq[0];
-        int code;
+        st.nextToken();
+        do {
+            String key = st.nextToken();
+            String value = st.nextToken();
+            ht.put(key.substring(0, key.length() - 1), value);
 
-        if(splitReq.length != 3)
-            code = 400;
-        else if(!com.equals(com.toUpperCase()))
-            code = 400;
-        else if(!methods.contains(com))
-            code =  501;
-        else {
-            command = splitReq[0];
-            String fileString = splitReq[1];
-            path = System.getProperty("user.dir") + fileString;
-            code =  200;
-        }
+        } while (st.countTokens() != 1 && st.countTokens() != 0);
 
-        return code;
+        return ht;
+    }
+
+    public String tokenizeBody(){
+        return st.nextToken();
     }
 
 }

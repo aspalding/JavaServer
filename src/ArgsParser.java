@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ArgsParser{
     private static final String DEFAULT_ROOT = System.getProperty("user.dir");
-    private static final int DEFAULT_PORT = 4000;
+    private static final int DEFAULT_PORT = 5000;
 
     public static String root = DEFAULT_ROOT;
     public static int port = DEFAULT_PORT;

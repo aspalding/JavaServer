@@ -30,6 +30,8 @@ public class ServerWorker implements Runnable {
                             new File(clientRequest.path)
                     );
 
+                    //System.out.println(clientResp.responseHeader(RequestHandler.classify(clientRequest.method), clientRequest.path) + "\n" + new String(clientResp.responseBody()));
+
                     SocketIO.writeResponse(
                             clientResp.responseHeader(RequestHandler.classify(clientRequest.method), clientRequest.path),
                             clientResp.responseBody(),

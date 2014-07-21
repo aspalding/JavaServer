@@ -26,6 +26,8 @@ public class Response{
             response += status + " " + statusReason.get(status) + "\n" + contentType + "\n\n";
         else if(file.isDirectory())
             response += status + " " + statusReason.get(status) + "\n" + "Content-Type: text/html" + "\n\n";
+        else if(file.getPath().contains("/form"))
+            response += 200 + " " + statusReason.get(200) + "\n "+ "Content-Type: text/html" + "\n\n";
         else
             response += 404 + " " + statusReason.get(404) + "\n\n";
 

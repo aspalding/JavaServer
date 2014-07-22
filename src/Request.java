@@ -1,20 +1,21 @@
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
 public class Request {
     StringTokenizer st;
-    Hashtable<String, String> headers;
+    HashMap<String, String> headers;
     String request, method, path, body;
 
     public Request(String request){
         this.request = request;
 
-        this.headers = new Hashtable<String, String>();
+        this.headers = new HashMap<String, String>();
         this.st = new StringTokenizer(this.request);
 
         this.method = tokenizeMethod();
         this.path = tokenizePath();
-        this.headers = tokenizeRest();
+        this.headers = tokenizeHeaders();
 
         if(st.hasMoreTokens())
             this.body = tokenizeBody();
@@ -28,9 +29,9 @@ public class Request {
         return System.getProperty("user.dir") + st.nextToken();
     }
 
-    public Hashtable<String, String> tokenizeRest(){
+    public HashMap<String, String> tokenizeHeaders(){
         st.nextToken(); //Discard HTTP Version.
-        Hashtable<String, String> ht = new Hashtable<String, String>();
+        HashMap<String, String> ht = new HashMap<String, String>();
         do {
             String key = st.nextToken();
             String value = st.nextToken();

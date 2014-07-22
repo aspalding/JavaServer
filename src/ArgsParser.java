@@ -1,8 +1,11 @@
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ArgsParser{
+    private static final Logger ARGS_LOG = Logger.getLogger( ArgsParser.class.getName() );
     private static final String DEFAULT_ROOT = System.getProperty("user.dir");
     private static final int DEFAULT_PORT = 5000;
 
@@ -26,7 +29,7 @@ public class ArgsParser{
         if(Files.isDirectory(Paths.get(input)))
             return input;
         else {
-            System.out.println("Not valid, using default");
+            ARGS_LOG.log(Level.INFO, "Invalid directory, using default");
             return DEFAULT_ROOT;
         }
     }
@@ -36,7 +39,7 @@ public class ArgsParser{
         try {
             result = Integer.parseInt(input);
         } catch (NumberFormatException e){
-            System.out.println("Not valid, using default");
+            ARGS_LOG.log(Level.INFO, "Invalid port, using default");
         }
 
         if(isValidPort(result))

@@ -45,7 +45,7 @@ public class ArgsParserTest {
 
         ArgsParser.parseArguments(args);
 
-        assertEquals(ArgsParser.port, 4000);
+        assertEquals(ArgsParser.port, 5000);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class ArgsParserTest {
 
         ArgsParser.parseArguments(args);
 
-        assertEquals(ArgsParser.port, 4000);
+        assertEquals(ArgsParser.port, 5000);
     }
 
     @Test

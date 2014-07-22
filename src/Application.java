@@ -12,7 +12,9 @@ public class Application{
 
         ExecutorService exe = Executors.newFixedThreadPool(8);
 
-        while(true)
-            exe.submit(new ServerWorker(s.accept()));
+        while(!s.isClosed()){
+            Thread t = new Thread(new ServerWorker(s.accept()));
+            exe.submit(t);
+        }
     }
 }

@@ -23,10 +23,18 @@ public class SocketIO{
         return request.substring(1, request.length());*/
     }
 
+    public static void writeResponse(String response, OutputStream output) throws Exception {
+        BufferedOutputStream out = new BufferedOutputStream(output);
+        out.write(response.getBytes());
+        out.close();
+    }
+
     public static void writeResponse(String responseHeader, byte[] responseBody, OutputStream output) throws Exception {
         BufferedOutputStream out = new BufferedOutputStream(output);
         out.write(responseHeader.getBytes());
+        out.write("\n".getBytes());
         out.write(responseBody);
         out.close();
     }
+
 }

@@ -1,9 +1,10 @@
-import java.io.*;
+import Requests.*;
+import Responses.*;
+
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 public class ServerWorker implements Runnable {
     private static final Logger reqRespLog = Logger.getLogger( ServerWorker.class.getName() );
@@ -28,22 +29,15 @@ public class ServerWorker implements Runnable {
                 if(clientRequest == null)
                     connection.close();
                 else {
-                    Response clientResp = new Response(
-                            new File(clientRequest.path)
-                    );
-
+                    ResponseObj response = ResponseRouter.route(clientRequest);
                     SocketIO.writeResponse(
-                            clientResp.responseHeader(RequestHandler.classify(clientRequest.method), clientRequest.path),
-                            clientResp.responseBody(),
+                            response.statusAndHeadersToString(),
+                            response.body,
                             connection.getOutputStream()
                     );
 
-                    reqRespLog.log(
-                            Level.FINE,
-                            request +
-                            clientResp.responseHeader(RequestHandler.classify(clientRequest.method), clientRequest.path) +
-                            "\n" + new String(clientResp.responseBody())
-                    );
+                    reqRespLog.log(Level.INFO, request);
+                    reqRespLog.log(Level.INFO, response.toString());
 
                     connection.close();
                 }

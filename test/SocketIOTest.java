@@ -1,4 +1,4 @@
-    import org.junit.Test;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,10 +20,7 @@ public class SocketIOTest {
         String text = "This is not a well formed request.\n" +
                       "But it has multiple lines.\n\n" +
                       "With a body like this.";
-/*
 
-        System.out.println(SocketIO.readRequest(input));
-*/
         InputStream input = new ByteArrayInputStream(text.getBytes());
         assert SocketIO.readFullRequest(input).contains(text);
     }
@@ -31,11 +28,22 @@ public class SocketIOTest {
     @Test
     public void testWriteResponse() throws Exception {
         OutputStream output = new ByteArrayOutputStream();
-        output.write("hello".getBytes());
-        output.write("world".getBytes());
+        output.write("status and headers\n".getBytes());
+        output.write("body".getBytes());
 
         OutputStream written = new ByteArrayOutputStream();
-        SocketIO.writeResponse("hello", "world".getBytes(), written);
+        SocketIO.writeResponse("status and headers", "body".getBytes(), written);
+
+        assertEquals(output.toString(), written.toString());
+    }
+
+    @Test
+    public void testWriteResponseString() throws Exception {
+        OutputStream output = new ByteArrayOutputStream();
+        output.write("hello world".getBytes());
+
+        OutputStream written = new ByteArrayOutputStream();
+        SocketIO.writeResponse("hello world", written);
 
         assertEquals(output.toString(), written.toString());
     }

@@ -61,6 +61,16 @@ public class ResponseRouterTest {
 
         assertEquals(true, (ResponseRouter.route(invalid) instanceof FourOFourResponse));
 
+        Request partial = new Request(
+                "GET /src/Application.java HTTP/1.1\n" +
+                        "Host: localhost:4000\n" +
+                        "Connection: keep-alive\n" +
+                        "Range: bytes=0-4\n" +
+                        "Cache-Control: max-age=0\n\n" +
+                        "body=notnil"
+        );
+
+        assertEquals(true, (ResponseRouter.route(partial) instanceof PartialResponse));
     }
 
     @Test

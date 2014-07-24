@@ -2,7 +2,7 @@
 out/*
 .idea/*
 src/TestMedia/*
-
+.clover/*
 ##Files
 *.txt
 *.iml

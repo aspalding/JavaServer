@@ -30,6 +30,7 @@ public class ServerWorker implements Runnable {
                     connection.close();
                 else {
                     ResponseObj response = ResponseRouter.route(clientRequest);
+
                     SocketIO.writeResponse(
                             response.statusAndHeadersToString(),
                             response.body,

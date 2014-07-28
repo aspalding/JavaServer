@@ -22,7 +22,7 @@ public class ServerWorkerTest {
                 "Connection: keep-alive\n" +
                 "Cache-Control: max-age=0\n";
 
-        Socket s = new Socket(){
+        Socket mockSocket = new Socket(){
             boolean closedState = false;
 
             @Override
@@ -48,14 +48,14 @@ public class ServerWorkerTest {
             }
         };
 
-        ServerWorker worker = new ServerWorker(s);
+        ServerWorker worker = new ServerWorker(mockSocket);
         worker.run();
-        assert s.isClosed();
+        assert mockSocket.isClosed();
     }
 
     @Test
     public void testRunInvalid() throws Exception {
-        Socket s = new Socket(){
+        Socket mockSocket = new Socket(){
             boolean closedState = false;
 
             @Override
@@ -77,11 +77,11 @@ public class ServerWorkerTest {
             }
         };
 
-        ServerWorker worker = new ServerWorker(s);
+        ServerWorker worker = new ServerWorker(mockSocket);
         worker.request = null;
 
         worker.run();
-        assert s.isClosed();
+        assert mockSocket.isClosed();
     }
 
 }

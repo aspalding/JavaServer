@@ -23,6 +23,9 @@ public class ResponseRouter{
             response = new OptionsResponse();
         else if(requestShouldBePartial(request.headers))
             response = new PartialResponse(file, new Integer(request.headers.get("Range").split("-")[1]));
+        else if(requestRedirectRoot(request.path)) {
+            response = new RedirectResponse(request.headers.get("Host"));
+        }
         else
             response = new FourOFourResponse();
 
@@ -43,5 +46,9 @@ public class ResponseRouter{
 
     public static boolean requestShouldBePartial(HashMap<String, String> headers){
         return headers.containsKey("Range");
+    }
+
+    public static boolean requestRedirectRoot(String path){
+        return path.contains("redirect");
     }
 }

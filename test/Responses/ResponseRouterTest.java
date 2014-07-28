@@ -78,4 +78,23 @@ public class ResponseRouterTest {
         File real = new File(System.getProperty("user.dir"));
         assertEquals(true, ResponseRouter.directoryHasIndex(real));
     }
+
+    @Test
+    public void testRedirectRoot() throws Exception {
+        String path = "/blah/redirect";
+        assertEquals(true, ResponseRouter.requestRedirectRoot(path));
+    }
+
+    @Test
+    public void testRedirectRootRoute() throws Exception {
+        Request redirect = new Request(
+                "GET /redirect HTTP/1.1\n" +
+                        "Host: localhost:4000\n" +
+                        "Connection: keep-alive\n" +
+                        "Cache-Control: max-age=0\n\n" +
+                        "body=notnil"
+        );
+
+        assertEquals(true, (ResponseRouter.route(redirect) instanceof RedirectResponse));
+    }
 }

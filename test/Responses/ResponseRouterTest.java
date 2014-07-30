@@ -71,6 +71,16 @@ public class ResponseRouterTest {
         );
 
         assertEquals(true, (ResponseRouter.route(partial) instanceof PartialResponse));
+
+        Request parameters = new Request(
+                "GET /parameters?variable_1=sadf HTTP/1.1\n" +
+                        "Host: localhost:4000\n" +
+                        "Connection: keep-alive\n" +
+                        "Cache-Control: max-age=0\n\n" +
+                        "body=notnil"
+        );
+
+        assertEquals(true, (ResponseRouter.route(parameters) instanceof GetParameterResponse));
     }
 
     @Test

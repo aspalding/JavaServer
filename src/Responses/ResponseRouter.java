@@ -23,6 +23,8 @@ public class ResponseRouter{
             response = new OptionsResponse();
         else if(requestShouldBePartial(request.headers))
             response = new PartialResponse(file, new Integer(request.headers.get("Range").split("-")[1]));
+        else if(request.path.contains("parameters"))
+            response = new GetParameterResponse(request.path);
         else if(requestRedirectRoot(request.path)) {
             response = new RedirectResponse(request.headers.get("Host"));
         }

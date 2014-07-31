@@ -14,7 +14,7 @@ public class RequestTest {
         String req = "GET /src/TestMedia/ HTTP/1.1\n" +
                 "Host: localhost:4000\n" +
                 "Connection: keep-alive\n" +
-                "Cache-Control: max-age=0\n\n" +
+                "Cache-Control: max-age=0\r\n\r\n" +
                 "body=notnil";
 
         request = new Request(req);
@@ -54,29 +54,33 @@ public class RequestTest {
 
 
     @Test
-    public void testRequestwoBody() throws Exception {
+    public void testRequesNoBody() throws Exception {
         String reqNoBody = "GET /src/TestMedia/ HTTP/1.1\n" +
-                "Host: localhost:4000\n" +
+                "Host: localhost:5000\n" +
                 "Connection: keep-alive\n" +
-                "Cache-Control: max-age=0\n";
+                "Cache-Control: max-age=0\r\n\r\n";
 
         Request requestNoBody = new Request(reqNoBody);
 
-        String itShould = "GET";
-        assertEquals(itShould, requestNoBody.method);
-
-        String itReallyShould = "/src/TestMedia/";
-        assert requestNoBody.path.contains(itReallyShould);
-
         HashMap<String, String> ht = new HashMap<String, String>(){
             {
-                put("Host", "localhost:4000");
+                put("Host", "localhost:5000");
                 put("Connection", "keep-alive");
                 put("Cache-Control", "max-age=0");
             }
         };
 
         assertEquals(ht, requestNoBody.headers);
+    }
+
+    @Test
+    public void testRequesBasicAuthHeaders() throws Exception {
+        String authReq = "GET /logs HTTP/1.1\n" +
+                "Authorization: Basic YWRtaW46aHVudGVyMg==\n";
+
+        Request authRequest = new Request(authReq);
+
+        assertEquals("Basic YWRtaW46aHVudGVyMg==", authRequest.headers.get("Authorization"));
     }
 
 }

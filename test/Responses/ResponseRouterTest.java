@@ -15,7 +15,7 @@ public class ResponseRouterTest {
                 "GET / HTTP/1.1\n" +
                 "Host: localhost:4000\n" +
                 "Connection: keep-alive\n" +
-                "Cache-Control: max-age=0\n\n" +
+                "Cache-Control: max-age=0\r\n\r\n" +
                 "body=notnil"
         );
 
@@ -25,7 +25,7 @@ public class ResponseRouterTest {
                 "GET /src/Application.java HTTP/1.1\n" +
                         "Host: localhost:4000\n" +
                         "Connection: keep-alive\n" +
-                        "Cache-Control: max-age=0\n\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
                         "body=notnil"
         );
 
@@ -35,7 +35,7 @@ public class ResponseRouterTest {
                 "POST /form HTTP/1.1\n" +
                         "Host: localhost:4000\n" +
                         "Connection: keep-alive\n" +
-                        "Cache-Control: max-age=0\n\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
                         "body=notnil"
         );
 
@@ -45,7 +45,7 @@ public class ResponseRouterTest {
                 "OPTIONS /method_options HTTP/1.1\n" +
                         "Host: localhost:4000\n" +
                         "Connection: keep-alive\n" +
-                        "Cache-Control: max-age=0\n\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
                         "body=notnil"
         );
 
@@ -55,7 +55,7 @@ public class ResponseRouterTest {
                 "GET C: HTTP/1.1\n" +
                         "Host: localhost:4000\n" +
                         "Connection: keep-alive\n" +
-                        "Cache-Control: max-age=0\n\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
                         "body=notnil"
         );
 
@@ -66,7 +66,7 @@ public class ResponseRouterTest {
                         "Host: localhost:4000\n" +
                         "Connection: keep-alive\n" +
                         "Range: bytes=0-4\n" +
-                        "Cache-Control: max-age=0\n\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
                         "body=notnil"
         );
 
@@ -76,7 +76,7 @@ public class ResponseRouterTest {
                 "GET /parameters?variable_1=sadf HTTP/1.1\n" +
                         "Host: localhost:4000\n" +
                         "Connection: keep-alive\n" +
-                        "Cache-Control: max-age=0\n\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
                         "body=notnil"
         );
 
@@ -101,7 +101,7 @@ public class ResponseRouterTest {
                 "GET /redirect HTTP/1.1\n" +
                         "Host: localhost:4000\n" +
                         "Connection: keep-alive\n" +
-                        "Cache-Control: max-age=0\n\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
                         "body=notnil"
         );
 

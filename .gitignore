@@ -3,6 +3,9 @@ out/*
 .idea/*
 src/TestMedia/*
 .clover/*
+target/*
+jars/*
+
 ##Files
 *.txt
 *.iml

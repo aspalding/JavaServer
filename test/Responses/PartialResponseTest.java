@@ -17,4 +17,16 @@ public class PartialResponseTest {
         assertEquals("text/html", resp.headers.get("Content-Type"));
         assertEquals(4, resp.body.length);
     }
+
+    @Test
+    public void testFileToBytesNull() throws Exception {
+        File fake = File.createTempFile("fake", "file");
+
+        PartialResponse resp = new PartialResponse(fake, 12);
+
+        String path = "C:\\";
+
+        assertEquals(null, resp.fileToBytes(path));
+    }
+
 }

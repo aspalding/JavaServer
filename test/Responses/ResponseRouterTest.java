@@ -21,6 +21,16 @@ public class ResponseRouterTest {
 
         assertEquals(true, (ResponseRouter.route(indexReq) instanceof FileResponse));
 
+        Request dirReq = new Request(
+                "GET /src HTTP/1.1\n" +
+                        "Host: localhost:4000\n" +
+                        "Connection: keep-alive\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
+                        "body=notnil"
+        );
+
+        assertEquals(true, (ResponseRouter.route(dirReq) instanceof DirectoryResponse));
+
         Request fileReq = new Request(
                 "GET /src/Application.java HTTP/1.1\n" +
                         "Host: localhost:4000\n" +

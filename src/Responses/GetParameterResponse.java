@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class GetParameterResponse extends ResponseObj{
+    static final String ENCODING = "UTF-8";
     String parameters;
 
     public GetParameterResponse(String parameters){
@@ -24,7 +25,7 @@ public class GetParameterResponse extends ResponseObj{
         for(int index = 0; index < params.size(); index++){
             String item = params.get(index);
             if(item.contains("%"))
-                responseBody += decodeParameter(item);
+                responseBody += decodeParameter(item, ENCODING);
             else
                 responseBody += params.get(index);
             if(index%2 == 0){
@@ -35,9 +36,9 @@ public class GetParameterResponse extends ResponseObj{
         this.body = responseBody.getBytes();
     }
 
-    public String decodeParameter(String parameter) {
+    public String decodeParameter(String parameter, String encoding) {
         try {
-            return URLDecoder.decode(parameter, "UTF-8");
+            return URLDecoder.decode(parameter, encoding);
         } catch(Exception e) {
             return "";
         }

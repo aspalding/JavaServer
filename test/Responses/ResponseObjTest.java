@@ -34,4 +34,11 @@ public class ResponseObjTest {
 
         assertEquals(itShould, obj.toString());
     }
+
+    @Test
+    public void testStatusAndHeadersToString() throws Exception{
+        String itShould = "HTTP/1.1 200 OK\nContent-Length: 1\nContent-Type: text/html\n";
+
+        assertEquals(itShould, obj.statusAndHeadersToString());
+    }
 }

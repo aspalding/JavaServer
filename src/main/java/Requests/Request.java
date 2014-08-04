@@ -34,7 +34,6 @@ public class Request {
 
     public HashMap<String, String> tokenizeHeaders(){
         st.nextToken(); //Discard HTTP Version.
-        st.nextToken("\n");
         HashMap<String, String> ht = new HashMap<String, String>();
 
         String key, value;
@@ -42,7 +41,6 @@ public class Request {
             key = st.nextToken(":");
             value = st.nextToken("\r\n");
 
-            key = key.substring(1);
             value = value.substring(2, value.length());
 
             ht.put(key.trim() , value.trim());

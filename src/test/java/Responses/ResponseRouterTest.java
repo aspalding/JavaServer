@@ -51,6 +51,16 @@ public class ResponseRouterTest {
 
         assertEquals(true, (ResponseRouter.route(postReq) instanceof PostResponse));
 
+        Request putReq = new Request(
+                "PUT /form HTTP/1.1\n" +
+                        "Host: localhost:4000\n" +
+                        "Connection: keep-alive\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
+                        "body=notnil"
+        );
+
+        assertEquals(true, (ResponseRouter.route(putReq) instanceof PutResponse));
+
         Request optReq = new Request(
                 "OPTIONS /method_options HTTP/1.1\n" +
                         "Host: localhost:4000\n" +
@@ -100,7 +110,7 @@ public class ResponseRouterTest {
     }
 
     @Test
-    public void testRedirectRoot() throws Exception {
+    public void testRedirectRoute() throws Exception {
         String path = "/blah/redirect";
         assertEquals(true, ResponseRouter.requestRedirectRoot(path));
     }
@@ -116,5 +126,41 @@ public class ResponseRouterTest {
         );
 
         assertEquals(true, (ResponseRouter.route(redirect) instanceof RedirectResponse));
+    }
+
+    @Test
+    public void testPutRoute() throws Exception {
+        Request put = new Request(
+                "PUT /file1 HTTP/1.1\n" +
+                        "Host: localhost:4000\n" +
+                        "Connection: keep-alive\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
+                        "body=notnil"
+        );
+
+        assertEquals(true, ResponseRouter.requestIsPut(put.method));
+    }
+
+    @Test
+    public void testNotAllowedRoute() throws Exception {
+        Request put = new Request(
+                "PUT /file1 HTTP/1.1\n" +
+                        "Host: localhost:4000\n" +
+                        "Connection: keep-alive\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
+                        "body=notnil"
+        );
+
+        assertEquals(405, ResponseRouter.route(put).status);
+
+        Request post = new Request(
+                "POST /text-file.txt HTTP/1.1\n" +
+                        "Host: localhost:4000\n" +
+                        "Connection: keep-alive\n" +
+                        "Cache-Control: max-age=0\r\n\r\n" +
+                        "body=notnil"
+        );
+
+        assertEquals(405, ResponseRouter.route(post).status);
     }
 }

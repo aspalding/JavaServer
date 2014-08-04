@@ -1,9 +1,9 @@
 package Responses;
 
-public class PostResponse extends ResponseObj {
+public class PutResponse extends ResponseObj{
     String requestBody, requestPath;
 
-    public PostResponse(String requestBody, String requestPath) {
+    public PutResponse(String requestBody, String requestPath) {
         this.requestBody = requestBody;
         this.requestPath = requestPath;
         this.generateStatusAndReason();
@@ -30,6 +30,6 @@ public class PostResponse extends ResponseObj {
     }
 
     public boolean isAllowed(String path) {
-        return !path.contains("text-file.txt");
+        return !path.contains("file1");
     }
 }

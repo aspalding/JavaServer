@@ -13,14 +13,16 @@ public class ResponseRouter{
             String path = file.getPath() + "/index.html";
             response = new FileResponse(new File(path));
         }
+        else if(requestIsPost(request.method))
+            response = new PostResponse(request.body,request.path );
+        else if(requestIsPut(request.method))
+            response = new PutResponse(request.body, request.path);
         else if(requestShouldBePartial(request.headers))
             response = new PartialResponse(file, new Integer(request.headers.get("Range").split("-")[1]));
         else if(file.isFile() && !request.headers.containsKey("Range"))
             response = new FileResponse(file);
         else if(file.isDirectory())
             response = new DirectoryResponse(file);
-        else if(requestIsPost(request.method, file))
-            response = new PostResponse(request.body);
         else if(requestIsOption(request.method, file))
             response = new OptionsResponse();
         else if(request.path.contains("parameters"))
@@ -38,8 +40,12 @@ public class ResponseRouter{
         return directory.isDirectory() && new File(directory, "/index.html").exists();
     }
 
-    public static boolean requestIsPost(String method, File file){
-        return file.getPath().contains("/form") || method.equals("POST");
+    public static boolean requestIsPost(String method){
+        return method.equals("POST");
+    }
+
+    public static boolean requestIsPut(String method){
+        return method.equals("PUT");
     }
 
     public static boolean requestIsOption(String method, File file){

@@ -2,12 +2,14 @@ package Responses;
 
 import org.junit.Test;
 
+import java.net.URLConnection;
+
 import static org.junit.Assert.*;
 
-public class PostResponseTest {
+public class PutResponseTest {
     @Test
-    public void testPostResponse() throws Exception {
-        ResponseObj resp = new PostResponse("&param=ola", "file1");
+    public void testPutResponse() throws Exception {
+        ResponseObj resp = new PutResponse("&param=ola", "d.d");
         assertEquals(200, resp.status);
         assertEquals("OK", resp.reason);
         assertEquals("text/html", resp.headers.get("Content-Type"));
@@ -16,16 +18,15 @@ public class PostResponseTest {
 
     @Test
     public void testHasExtension() throws Exception{
-        PostResponse resp = new PostResponse("&param=ola", "dajsf");
-        assertEquals(true, resp.isAllowed("file1"));
-        assertEquals(false, resp.isAllowed("text-file.txt"));
+        PutResponse resp = new PutResponse("&param=ola", "");
+        assertEquals(true, resp.isAllowed("text-file.txt"));
+        assertEquals(false, resp.isAllowed("file1"));
     }
 
     @Test
     public void testMethodNotAllowed() throws Exception{
-        PostResponse resp = new PostResponse("&param=ola", "text-file.txt");
+        PutResponse resp = new PutResponse("&param=ola", "file1");
         assertEquals(405, resp.status);
         assertEquals("Method Not Allowed", resp.reason);
     }
-
 }

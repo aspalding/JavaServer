@@ -23,7 +23,7 @@ public class ResponseRouter{
             response = new FileResponse(file);
         else if(file.isDirectory())
             response = new DirectoryResponse(file);
-        else if(requestIsOption(request.method, file))
+        else if(requestIsOption(request.method))
             response = new OptionsResponse();
         else if(request.path.contains("parameters"))
             response = new GetParameterResponse(request.path);
@@ -48,8 +48,8 @@ public class ResponseRouter{
         return method.equals("PUT");
     }
 
-    public static boolean requestIsOption(String method, File file){
-        return file.getPath().contains("/method_options") || method.equals("OPTIONS");
+    public static boolean requestIsOption(String method){
+        return method.equals("OPTIONS");
     }
 
     public static boolean requestShouldBePartial(HashMap<String, String> headers){

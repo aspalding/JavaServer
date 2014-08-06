@@ -10,36 +10,12 @@ public class Response {
     public final HashMap<String, String> headers;
     public final byte[] body;
 
-    public Response(){
-        this.status = null;
-        this.reason = null;
-        this.headers = null;
-        this.body = null;
-    }
-
     public Response(Integer status, String reason, HashMap<String, String> headers, byte[] body){
         this.status = status;
         this.reason = reason;
         this.headers = headers;
         this.body = body;
     }
-
-    public Response withStatus(Integer status){
-        return new Response(status, reason, headers, body);
-    }
-
-    public Response withReason(String reason){
-        return new Response(status, reason, headers, body);
-    }
-
-    public Response withHeaders(HashMap<String, String> headers){
-        return new Response(status, reason, headers, body);
-    }
-
-    public Response withBody(byte[] body){
-        return new Response(status, reason, headers, body);
-    }
-
 
     public String statusAndHeadersToString(){
         String response = "HTTP/1.1 " + status + " " + reason + "\n";

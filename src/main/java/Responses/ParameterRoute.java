@@ -1,24 +1,43 @@
 package Responses;
 
+import Requests.Request;
+
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class GetParameterResponse extends ResponseObj{
+public class ParameterRoute implements Route {
     static final String ENCODING = "UTF-8";
+    Request request;
     String parameters;
 
-    public GetParameterResponse(String parameters){
-        this.status = 200;
-        this.reason = "OK";
-        this.headers.put("Content-Type", "text/html");
-        this.parameters = parameters;
-
-        this.generateBody();
+    public ParameterRoute(Request request){
+        this.request = request;
+        this.parameters = request.path;
     }
 
-    public void generateBody(){
+    public Response respond() {
+        if (request.method.equals("GET"))
+            return get();
+        else
+            return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
+    }
+
+    public Response get() {
+        return new Response(200, "OK", generateHeaders(), generateBody());
+    }
+
+    public HashMap<String, String> generateHeaders(){
+        return new HashMap<String, String>(){
+            {
+                put("Content Type", "text/html");
+            }
+        };
+    }
+
+    public byte[] generateBody(){
         String responseBody = "";
 
         List<String> params = trimAndSplit(parameters);
@@ -33,7 +52,7 @@ public class GetParameterResponse extends ResponseObj{
             }
         }
 
-        this.body = responseBody.getBytes();
+        return responseBody.getBytes();
     }
 
     public String decodeParameter(String parameter, String encoding) {

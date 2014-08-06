@@ -29,7 +29,7 @@ public class ServerWorker implements Runnable {
                 if(clientRequest == null)
                     connection.close();
                 else {
-                    ResponseObj response = ResponseRouter.route(clientRequest);
+                    Response response = Router.route(clientRequest);
 
                     SocketIO.writeResponse(
                             response.statusAndHeadersToString(),

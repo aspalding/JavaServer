@@ -4,14 +4,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class ResponseObj{
-    public int status;
-    public String reason;
-    public HashMap<String, String> headers;
-    public byte[] body;
+public class Response {
+    public final Integer status;
+    public final String reason;
+    public final HashMap<String, String> headers;
+    public final byte[] body;
 
-    public ResponseObj(){
-        headers = new HashMap<String, String>();
+    public Response(Integer status, String reason, HashMap<String, String> headers, byte[] body){
+        this.status = status;
+        this.reason = reason;
+        this.headers = headers;
+        this.body = body;
     }
 
     public String statusAndHeadersToString(){

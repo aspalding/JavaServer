@@ -12,9 +12,9 @@ import java.util.HashMap;
 
 
 public class FileDirectoryRoute implements Route {
-    Request request;
-    String contentType, forbidden;
-    int range;
+    public Request request;
+    public String contentType, forbidden;
+    public int range;
 
     public FileDirectoryRoute(Request request) {
         this.request = request;
@@ -47,8 +47,8 @@ public class FileDirectoryRoute implements Route {
     public Response get(){
         if(request.headers.containsKey("Range"))
             return new Response(206, "Partial Content", generateHeaders(), generateBody());
-
-        return new Response(200, "OK", generateHeaders(), generateBody());
+        else
+            return new Response(200, "OK", generateHeaders(), generateBody());
     }
 
     public Response put(){
@@ -69,7 +69,7 @@ public class FileDirectoryRoute implements Route {
         return headers;
     }
 
-    private byte[] generateBody() {
+    public byte[] generateBody() {
         if(this.request.headers.containsKey("Range"))
             return fileToBytes(request.path, range);
         else if(new File(this.request.path).isFile())

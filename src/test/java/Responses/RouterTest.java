@@ -42,7 +42,8 @@ public class RouterTest {
                 "POST /form HTTP/1.1\r\n" +
                         "Host: localhost:4000\r\n" +
                         "Connection: keep-alive\r\n" +
-                        "Cache-Control: max-age=0\r\n\r\n"
+                        "Cache-Control: max-age=0\r\n\r\n" +
+                        "param = hi"
         );
         assert Router.route(formRequest) != null;
 

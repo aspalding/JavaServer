@@ -1,6 +1,7 @@
 package Responses;
 
 import Requests.Request;
+import Responses.Persistence.Form;
 
 import java.util.HashMap;
 
@@ -9,23 +10,42 @@ public class FormRoute {
 
     public FormRoute(Request request) {
         this.request = request;
-
     }
 
     public Response respond(){
-        if (request.method.equals("PUT"))
+        if (request.method.equals("GET"))
+            return get();
+        else if (request.method.equals("PUT"))
             return put();
         else if (request.method.equals("POST"))
             return post();
+        else if (request.method.equals("DELETE")){
+            return delete();
+        }
         else
             return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
     }
 
+    public Response get(){
+        return new Response(200, "OK", generateHeaders(), Form.content.getBytes());
+    }
+
+    public Response delete(){
+        Form.deleteContent();
+        return new Response(200, "Okay", new HashMap<>(), "".getBytes());
+    }
+
     public Response put(){
+        if(request.body.length() > 0) {
+            Form.deleteContent();
+            Form.content = addSpaces(request.body);
+        }
         return new Response(200, "OK", generateHeaders(), "".getBytes());
     }
 
     public Response post(){
+        if(request.body.length() > 0)
+            Form.content = addSpaces(request.body);
         return new Response(200, "OK", generateHeaders(), "".getBytes());
     }
 
@@ -35,5 +55,16 @@ public class FormRoute {
                 put("Content-Type", "text/html");
             }
         };
+    }
+
+    public String addSpaces(String parameter) {
+        String result = "";
+        String[] parameters = parameter.split("=");
+        for(int index = 0; index < parameters.length; index++) {
+            result += parameters[index] + " ";
+            if(index % 2 == 0)
+                result += "= ";
+        }
+        return result.trim();
     }
 }

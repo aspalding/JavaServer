@@ -16,32 +16,25 @@ public class ParameterRoute implements Route {
     public ParameterRoute(Request request){
         this.request = request;
         this.parameters = request.path;
-        String method = "dsaf";
-
-        /*switch (method) {
-            case "GET": this.get();
-            case "POST": this.post();
-            case "PUT": this.put();
-            case "DELETE": this.delete();
-            case "OPTION": this.option();
-            case "PATCH": this.patch();
-        }*/
     }
 
     public Response respond() {
         if (request.method.equals("GET"))
             return get();
-        return new Response(405, "Method Not Allowed", null, null);
+        else
+            return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
     }
 
     public Response get() {
-        HashMap<String, String> headers = new HashMap<String, String>(){
+        return new Response(200, "OK", generateHeaders(), generateBody());
+    }
+
+    public HashMap<String, String> generateHeaders(){
+        return new HashMap<String, String>(){
             {
                 put("Content Type", "text/html");
             }
         };
-
-        return new Response(200, "OK", headers, generateBody());
     }
 
     public byte[] generateBody(){

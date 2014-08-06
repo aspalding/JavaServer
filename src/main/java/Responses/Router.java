@@ -3,6 +3,7 @@ package Responses;
 import Requests.Request;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class Router {
 
@@ -11,24 +12,27 @@ public class Router {
 
         if(request.path.contains("parameters")){
            response = new ParameterRoute(request).respond();
-        } else {
-            response = null;
-        }
-        /*else if(request.path.contains("form")){
-
-        } else if(request.path.contains("redirect")){
-
+        } else if(request.path.contains("redirect")) {
+            response = new RedirectRoute(request).respond();
         } else if(request.path.contains("method_options")){
-
-        } else if(new File(request.path).exists()){
-
+            response = new OptionsRoute(request).respond();
+        } else if(request.path.contains("form")){
+            response = new FormRoute(request).respond();
+        } else if(isFileDirectory(request.path)){
+            response = new FileDirectoryRoute(request).respond();
         } else {
-
-        }*/
-
+                response = generateFourOFour();
+        }
 
         return response;
-        //return response;
+    }
+
+    public static boolean isFileDirectory(String path){
+        return new File(path).exists();
+    }
+
+    public static Response generateFourOFour(){
+        return new Response(404, "Not Found", new HashMap<>(), "Page Not Found.".getBytes());
     }
 
 }

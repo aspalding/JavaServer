@@ -15,7 +15,7 @@ public class FormRoute {
     public Response respond(){
         if (request.method.equals("PUT"))
             return put();
-        if (request.method.equals("POST"))
+        else if (request.method.equals("POST"))
             return post();
         else
             return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
@@ -30,12 +30,10 @@ public class FormRoute {
     }
 
     public HashMap<String, String> generateHeaders(){
-        HashMap<String, String> headers = new HashMap<String, String>() {
+        return new HashMap<String, String>() {
             {
                 put("Content-Type", "text/html");
             }
         };
-
-        return headers;
     }
 }

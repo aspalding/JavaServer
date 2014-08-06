@@ -15,24 +15,22 @@ public class RedirectRoute implements Route {
         if (request.method.equals("GET"))
             return get();
         else
-            return new Response(405, "Method Not Allowed", null, null);
+            return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
     }
 
     public Response get(){
         return new Response(302, "Found", generateHeaders(), generateBody());
     }
 
-    private HashMap<String, String> generateHeaders(){
-        HashMap<String, String> headers = new HashMap<String, String>(){
+    public HashMap<String, String> generateHeaders(){
+        return new HashMap<String, String>(){
             {
                 put("Location", "http://" + request.headers.get("Host") + "/");
             }
         };
-
-        return headers;
     }
 
-    private byte[] generateBody() {
+    public byte[] generateBody() {
         return "This page has moved.".getBytes();
     }
 }

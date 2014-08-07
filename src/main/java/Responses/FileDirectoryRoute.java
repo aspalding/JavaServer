@@ -1,6 +1,7 @@
 package Responses;
 
 import Requests.Request;
+import Responses.Persistence.PatchFile;
 import Responses.Views.FolderView;
 
 import java.io.File;
@@ -40,6 +41,8 @@ public class FileDirectoryRoute implements Route {
             return put();
         else if(request.method.equals("POST") && isAllowed(request.path))
             return post();
+        else if(request.method.equals("PATCH"))
+            return patch();
         else
             return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
     }
@@ -57,6 +60,11 @@ public class FileDirectoryRoute implements Route {
 
     public Response post(){
         return new Response(200, "OK", generateHeaders(), generateBody());
+    }
+
+    public Response patch() {
+        PatchFile.write(request);
+        return new Response(204, "No Content", generateHeaders(), generateBody());
     }
 
     public HashMap<String, String> generateHeaders(){
@@ -99,4 +107,5 @@ public class FileDirectoryRoute implements Route {
     public boolean isAllowed(String path) {
         return !path.contains(forbidden);
     }
+
 }

@@ -9,13 +9,13 @@ import java.io.File;
 import static org.junit.Assert.*;
 
 public class FileDirectoryRouteTest {
-    Request request, rangeRequest, putRequest, postRequest, directoryRequest;
-    FileDirectoryRoute route, rangeRoute, putRoute, postRoute, directoryRoute;
+    Request request, rangeRequest, putRequest, postRequest, directoryRequest, patchRequest;
+    FileDirectoryRoute route, rangeRoute, putRoute, postRoute, directoryRoute, patchRoute;
 
     @Before
     public void setUp() throws Exception {
         request = new Request(
-                "GET /pom.xml HTTP/1.1\r\n" +
+                "GET /index.html HTTP/1.1\r\n" +
                         "Host: localhost:4000\r\n" +
                         "Connection: keep-alive\r\n" +
                         "Cache-Control: max-age=0\r\n\r\n" +
@@ -24,7 +24,7 @@ public class FileDirectoryRouteTest {
         route = new FileDirectoryRoute(request);
 
         rangeRequest = new Request(
-                "GET /pom.xml HTTP/1.1\r\n" +
+                "GET /index.html HTTP/1.1\r\n" +
                         "Host: localhost:4000\r\n" +
                         "Connection: keep-alive\r\n" +
                         "Range: bytes=0-4\r\n" +
@@ -34,7 +34,7 @@ public class FileDirectoryRouteTest {
         rangeRoute = new FileDirectoryRoute(rangeRequest);
 
         putRequest = new Request(
-                "PUT /pom.xml HTTP/1.1\r\n" +
+                "PUT /index.html HTTP/1.1\r\n" +
                         "Host: localhost:4000\r\n" +
                         "Connection: keep-alive\r\n" +
                         "Cache-Control: max-age=0\r\n\r\n"
@@ -42,7 +42,7 @@ public class FileDirectoryRouteTest {
         putRoute = new FileDirectoryRoute(putRequest);
 
         postRequest = new Request(
-                "POST /pom.xml HTTP/1.1\r\n" +
+                "POST /index.html HTTP/1.1\r\n" +
                         "Host: localhost:4000\r\n" +
                         "Connection: keep-alive\r\n" +
                         "Cache-Control: max-age=0\r\n\r\n"
@@ -56,6 +56,14 @@ public class FileDirectoryRouteTest {
                         "Cache-Control: max-age=0\r\n\r\n"
         );
         directoryRoute = new FileDirectoryRoute(directoryRequest);
+
+        patchRequest = new Request(
+                "PATCH /index.html HTTP/1.1\r\n" +
+                        "Host: localhost:4000\r\n" +
+                        "Connection: keep-alive\r\n" +
+                        "Cache-Control: max-age=0\r\n\r\n"
+        );
+        patchRoute = new FileDirectoryRoute(patchRequest);
     }
 
     @Test
@@ -64,6 +72,7 @@ public class FileDirectoryRouteTest {
         assert rangeRoute.respond().status == 206;
         assert putRoute.respond().status == 200;
         assert postRoute.respond().status == 200;
+        assertEquals(new Integer(204), patchRoute.respond().status);  //== 204;
 
         Request request = new Request(
                 "OPTION / HTTP/1.1\r\n" +
@@ -92,8 +101,13 @@ public class FileDirectoryRouteTest {
     }
 
     @Test
+    public void testPatch() throws Exception{
+        assert route.patch() != null;
+    }
+
+    @Test
     public void testGenerateHeaders() throws Exception {
-        assert route.generateHeaders().containsValue("application/xml");
+        assert route.generateHeaders().containsValue("text/html");
     }
 
     @Test

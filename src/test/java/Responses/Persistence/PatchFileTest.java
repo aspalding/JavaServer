@@ -15,7 +15,7 @@ public class PatchFileTest {
     @Test
     public void testWrite() throws Exception {
         Request request = new Request(
-                "GET /temp HTTP/1.1\r\n" +
+                "PATCH /temp HTTP/1.1\r\n" +
                         "Host: localhost:4000\r\n" +
                         "Connection: keep-alive\r\n" +
                         "Cache-Control: max-age=0\r\n\r\n" +

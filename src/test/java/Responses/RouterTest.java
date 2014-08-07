@@ -17,7 +17,7 @@ public class RouterTest {
                         "Cache-Control: max-age=0\r\n\r\n" +
                         "body=notnil"
         );
-        assert Router.route(parameterRequest) != null;
+        assert Router.route(parameterRequest).status != 404;
 
 
         Request redirectRequest = new Request(
@@ -28,7 +28,7 @@ public class RouterTest {
                         "Cache-Control: max-age=0\r\n\r\n" +
                         "body=notnil"
         );
-        assert Router.route(redirectRequest) != null;
+        assert Router.route(redirectRequest).status != 404;
 
         Request optionsRequest = new Request(
                 "OPTIONS /method_options HTTP/1.1\r\n" +
@@ -36,7 +36,7 @@ public class RouterTest {
                         "Connection: keep-alive\r\n" +
                         "Cache-Control: max-age=0\r\n\r\n"
         );
-        assert Router.route(optionsRequest) != null;
+        assert Router.route(optionsRequest).status != 404;
 
         Request formRequest = new Request(
                 "POST /form HTTP/1.1\r\n" +
@@ -45,7 +45,15 @@ public class RouterTest {
                         "Cache-Control: max-age=0\r\n\r\n" +
                         "param = hi"
         );
-        assert Router.route(formRequest) != null;
+        assert Router.route(formRequest).status != 404;
+
+        Request logsRequest = new Request(
+                "GET /logs HTTP/1.1\r\n" +
+                        "Host: localhost:4000\r\n" +
+                        "Connection: keep-alive\r\n" +
+                        "Cache-Control: max-age=0\r\n\r\n"
+        );
+        assert Router.route(logsRequest).status != 404;
 
         Request fileDirectoryRequest = new Request(
                 "GET / HTTP/1.1\r\n" +
@@ -53,7 +61,7 @@ public class RouterTest {
                         "Connection: keep-alive\r\n" +
                         "Cache-Control: max-age=0\r\n\r\n"
         );
-        assert Router.route(fileDirectoryRequest) != null;
+        assert Router.route(fileDirectoryRequest).status != 404;
 
         Request fourOFour = new Request(
                 "GET /C: HTTP/1.1\r\n" +

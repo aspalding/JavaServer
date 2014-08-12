@@ -19,7 +19,9 @@ public class Application{
 
         while(!s.isClosed()){
             socketQueue.put(s.accept());
-            exe.submit(new ServerWorker(socketQueue.take()));
+            ServerWorker runnable = new ServerWorker(socketQueue.take());
+            exe.submit(runnable);
+            //Thread.sleep(200);
         }
     }
 }

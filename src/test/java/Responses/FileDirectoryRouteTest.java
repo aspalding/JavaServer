@@ -18,8 +18,7 @@ public class FileDirectoryRouteTest {
                 "GET /index.html HTTP/1.1\r\n" +
                         "Host: localhost:4000\r\n" +
                         "Connection: keep-alive\r\n" +
-                        "Cache-Control: max-age=0\r\n\r\n" +
-                        "body=notnil"
+                        "Cache-Control: max-age=0\r\n\r\n"
         );
         route = new FileDirectoryRoute(request);
 

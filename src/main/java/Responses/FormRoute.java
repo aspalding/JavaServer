@@ -13,8 +13,14 @@ public class FormRoute {
     }
 
     public Response respond(){
-        if (request.method.equals("GET"))
+        if (request.method.equals("GET")){
+            try {
+                Thread.sleep(500);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
             return get();
+        }
         else if (request.method.equals("PUT"))
             return put();
         else if (request.method.equals("POST"))

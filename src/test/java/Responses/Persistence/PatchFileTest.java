@@ -27,6 +27,7 @@ public class PatchFileTest {
         PatchFile.write(request);
 
         byte[] writtenContent = Files.readAllBytes(Paths.get(temp.getPath()));
-        assertEquals("body=notnil", new String(writtenContent));
+        assertEquals("body=notnil\n", new String(writtenContent));
     }
+
 }

@@ -9,8 +9,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class LogsRouteTest {
-    Request authorizedRequest, unauthorizedRequest, notAllowedRequest;
-    LogsRoute authorizedRoute, unauthorizedRoute, notAllowedRoute;
+    Request authorizedRequest, invalidRequest, unauthorizedRequest, notAllowedRequest;
+    LogsRoute authorizedRoute, invalidRoute, unauthorizedRoute, notAllowedRoute;
 
     @Before
     public void setUp() throws Exception {
@@ -21,6 +21,14 @@ public class LogsRouteTest {
                         "Host: localhost:5000"
         );
         authorizedRoute = new LogsRoute(authorizedRequest);
+
+        invalidRequest = new Request(
+                "GET /logs HTTP/1.1\n" +
+                        "Authorization: Basic YWRtaW46cGFzc3dvcmQ=\n" +
+                        "Connection: close\n" +
+                        "Host: localhost:5000"
+        );
+        invalidRoute = new LogsRoute(invalidRequest);
 
         unauthorizedRequest = new Request(
                 "GET /logs HTTP/1.1\n" +
@@ -49,6 +57,8 @@ public class LogsRouteTest {
     public void testRespond() throws Exception {
         assert notAllowedRoute.respond().status == 405;
         assert authorizedRoute.respond().status == 200;
+        assert invalidRoute.respond().status == 401;
+        assert unauthorizedRoute.respond().status == 401;
     }
 
     @Test
@@ -61,5 +71,15 @@ public class LogsRouteTest {
     public void testGenerateBody() throws Exception {
         Router.route(unauthorizedRequest);
         assert authorizedRoute.generateBody().length > 0;
+    }
+
+    @Test
+    public void testDecodeString() throws Exception{
+        assertEquals("admin:hunter2", authorizedRoute.decodeString("Basic YWRtaW46aHVudGVyMg=="));
+    }
+
+    @Test
+    public void testIsValidUser() throws Exception{
+        assert authorizedRoute.isValidUser("admin:hunter2");
     }
 }

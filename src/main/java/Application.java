@@ -12,16 +12,15 @@ public class Application{
         ArgsParser.parseArguments(Arrays.asList(cat));
 
         System.setProperty("user.dir", ArgsParser.root);
-        ServerSocket s = new ServerSocket(ArgsParser.port, 4096);
+        ServerSocket s = new ServerSocket(ArgsParser.port, 8192);
 
-        ExecutorService exe = Executors.newFixedThreadPool(32);
+        ExecutorService exe = Executors.newFixedThreadPool(16);
         BlockingQueue<Socket> socketQueue = new LinkedBlockingDeque<>();
 
         while(!s.isClosed()){
             socketQueue.put(s.accept());
             ServerWorker runnable = new ServerWorker(socketQueue.take());
             exe.submit(runnable);
-            //Thread.sleep(200);
         }
     }
 }

@@ -19,11 +19,10 @@ public class FileDirectoryRoute implements Route {
 
     public FileDirectoryRoute(Request request) {
         this.request = request;
-        if(new File(this.request.path).isFile()){
+        if(new File(this.request.path).isFile())
             contentType = URLConnection.getFileNameMap().getContentTypeFor(request.path);
-        } else {
+        else
             contentType = "text/html";
-        }
 
         if(this.request.method.equals("PUT"))
             forbidden = "file1";

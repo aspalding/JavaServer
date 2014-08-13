@@ -15,7 +15,7 @@ public class FormRoute {
     public Response respond(){
         if (request.method.equals("GET")){
             try {
-                Thread.sleep(500);
+                Thread.sleep(1500);
             } catch(Exception e) {
                 e.printStackTrace();
             }

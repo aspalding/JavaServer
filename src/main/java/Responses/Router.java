@@ -37,7 +37,7 @@ public class Router {
     }
 
     public static Response generateFourOFour(){
-        return new Response(404, "Not Found", new HashMap<>(), "Page Not Found.".getBytes());
+        return new Response(404, "Not Found", new HashMap<>(), "Page Not Found.");
     }
 
 }

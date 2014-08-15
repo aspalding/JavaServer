@@ -43,7 +43,7 @@ public class FileDirectoryRoute implements Route {
         else if(request.method.equals("PATCH"))
             return patch();
         else
-            return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
+            return new Response(405, "Method Not Allowed", new HashMap<>(), "");
     }
 
     public Response get(){

@@ -15,7 +15,7 @@ public class RedirectRoute implements Route {
         if (request.method.equals("GET"))
             return get();
         else
-            return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
+            return new Response(405, "Method Not Allowed", new HashMap<>(), "");
     }
 
     public Response get(){

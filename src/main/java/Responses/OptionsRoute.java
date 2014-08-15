@@ -15,11 +15,11 @@ public class OptionsRoute implements Route {
         if (!request.method.equals("DELETE"))
             return options();
         else
-            return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
+            return new Response(405, "Method Not Allowed", new HashMap<>(), "");
     }
 
     public Response options(){
-        return new Response(200, "OK", generateHeaders(), "".getBytes());
+        return new Response(200, "OK", generateHeaders(), "");
     }
 
     public HashMap<String, String> generateHeaders(){

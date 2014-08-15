@@ -23,12 +23,12 @@ public class FormRoute {
             case "DELETE":
                 return delete();
             default:
-                return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
+                return new Response(405, "Method Not Allowed", new HashMap<>(), "");
         }
     }
 
     public Response get(){
-        return new Response(200, "OK", generateHeaders(), Form.content.getBytes());
+        return new Response(200, "OK", generateHeaders(), Form.content);
     }
 
     public Response delete(){
@@ -41,13 +41,13 @@ public class FormRoute {
             Form.deleteContent();
             Form.content = addSpaces(request.body);
         }
-        return new Response(200, "OK", generateHeaders(), "".getBytes());
+        return new Response(200, "OK", generateHeaders(), "");
     }
 
     public Response post(){
         if(request.body.length() > 0)
             Form.content = addSpaces(request.body);
-        return new Response(200, "OK", generateHeaders(), "".getBytes());
+        return new Response(200, "OK", generateHeaders(), "");
     }
 
     public HashMap<String, String> generateHeaders(){

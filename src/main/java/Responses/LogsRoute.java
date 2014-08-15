@@ -19,14 +19,14 @@ public class LogsRoute implements Route {
         if(request.method.equals("GET"))
             return get();
         else
-            return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
+            return new Response(405, "Method Not Allowed", new HashMap<>(), "");
     }
 
     public Response get(){
         if(!request.headers.containsKey("Authorization"))
-            return new Response(401, "Unauthorized", new HashMap<>(), "Authentication required".getBytes());
+            return new Response(401, "Unauthorized", new HashMap<>(), "Authentication required");
         else if(!isValidUser(decodeString(request.headers.get("Authorization"))))
-            return new Response(401, "Unauthorized", new HashMap<>(), "Authentication required".getBytes());
+            return new Response(401, "Unauthorized", new HashMap<>(), "Authentication required");
         else
             return new Response(200, "OK", new HashMap<>(), generateBody());
     }

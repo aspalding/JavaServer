@@ -17,6 +17,13 @@ public class Response {
         this.body = body;
     }
 
+    public Response(Integer status, String reason, HashMap<String, String> headers, String body){
+        this.status = status;
+        this.reason = reason;
+        this.headers = headers;
+        this.body = body.getBytes();
+    }
+
     public String statusAndHeadersToString(){
         String response = "HTTP/1.1 " + status + " " + reason + "\n";
         List<Object> headerKeys = Arrays.asList(headers.keySet().toArray());

@@ -13,23 +13,18 @@ public class FormRoute {
     }
 
     public Response respond(){
-        if (request.method.equals("GET")){
-            try {
-                Thread.sleep(1500);
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-            return get();
+        switch (request.method) {
+            case "GET":
+                return get();
+            case "PUT":
+                return put();
+            case "POST":
+                return post();
+            case "DELETE":
+                return delete();
+            default:
+                return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
         }
-        else if (request.method.equals("PUT"))
-            return put();
-        else if (request.method.equals("POST"))
-            return post();
-        else if (request.method.equals("DELETE")){
-            return delete();
-        }
-        else
-            return new Response(405, "Method Not Allowed", new HashMap<>(), "".getBytes());
     }
 
     public Response get(){

@@ -3,6 +3,7 @@ import Responses.*;
 
 import java.net.Socket;
 import java.util.NoSuchElementException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,14 +13,11 @@ public class ServerWorker implements Runnable {
     public Socket connection;
     public String request;
 
-    public boolean finished;
-
     public ServerWorker(Socket connection) throws Exception{
         this.connection = connection;
-        this.request = SocketIO.readFullRequest(connection.getInputStream());
-        this.finished = false;
 
         try {
+            this.request = SocketIO.readFullRequest(connection.getInputStream());
             this.clientRequest = new Request(request);
         } catch(NoSuchElementException e) {
             this.clientRequest = null;
@@ -40,20 +38,15 @@ public class ServerWorker implements Runnable {
                             connection.getOutputStream()
                     );
 
+                    reqRespLog.log(Level.INFO, request);
+                    reqRespLog.log(Level.INFO, response.toString());
 
-                    //reqRespLog.log(Level.INFO, request);
-                    //reqRespLog.log(Level.INFO, response.toString());
 
                     connection.close();
-                    finished = true;
                 }
             }
         } catch(Exception e){
-            //Intentionally empty. e.printStackTrace();
+            //Intentionally empty.
         }
-    }
-
-    public boolean getFinished(){
-        return finished;
     }
 }

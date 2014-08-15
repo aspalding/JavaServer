@@ -8,12 +8,6 @@ import java.io.OutputStream;
 import static org.junit.Assert.assertEquals;
 
 public class SocketIOTest {
-    @Test
-    public void testReadRequest() throws Exception {
-        InputStream input = new ByteArrayInputStream("hello world".getBytes());
-
-        assertEquals("hello world", SocketIO.readRequest(input));
-    }
 
     @Test
     public void testReadRequestWithHeadersAndBody() throws Exception {
@@ -33,17 +27,6 @@ public class SocketIOTest {
 
         OutputStream written = new ByteArrayOutputStream();
         SocketIO.writeResponse("status and headers", "body".getBytes(), written);
-
-        assertEquals(output.toString(), written.toString());
-    }
-
-    @Test
-    public void testWriteResponseString() throws Exception {
-        OutputStream output = new ByteArrayOutputStream();
-        output.write("hello world".getBytes());
-
-        OutputStream written = new ByteArrayOutputStream();
-        SocketIO.writeResponse("hello world", written);
 
         assertEquals(output.toString(), written.toString());
     }

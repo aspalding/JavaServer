@@ -16,12 +16,11 @@ public class Request {
         this.headers = new HashMap<String, String>();
         this.st = new StringTokenizer(splitBodyFromRequest[0]);
 
+        this.body = (splitBodyFromRequest.length == 2) ? splitBodyFromRequest[1] : "";
+
         this.method = tokenizeMethod();
         this.path = tokenizePath();
         this.headers = tokenizeHeaders();
-
-        if(splitBodyFromRequest.length == 2)
-            this.body = splitBodyFromRequest[1];
     }
 
     public String tokenizeMethod(){

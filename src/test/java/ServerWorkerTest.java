@@ -26,10 +26,7 @@ public class ServerWorkerTest {
 
             @Override
             public boolean isClosed(){
-                if(!closedState)
-                    return false;
-                else
-                    return true;
+                return closedState;
             }
             @Override
             public InputStream getInputStream(){
@@ -59,10 +56,7 @@ public class ServerWorkerTest {
 
             @Override
             public boolean isClosed(){
-                if(!closedState)
-                    return false;
-                else
-                    return true;
+                return closedState;
             }
 
             @Override
